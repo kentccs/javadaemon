@@ -1,0 +1,140 @@
+#!/bin/bash
+
+# Directory where the application resides
+DIR=/home/kent/NetBeansProjects/phillipsDaemon/dist
+# Application JAR file (may be in a sub folder)
+JAR_FILE=$DIR/phillipsDaemon.jar
+# The PID file location
+PID=/var/run/phillipsDaemon.pid
+# JVM in use
+JAVA_HOME=/usr/lib/jvm/java-7-oracle
+# Name of the daemon (will be displayed during start/stop)
+NAME="Philips Daemon"
+# Main class implementing the Daemon interface
+MAIN_CLASS=com.cellulant.phillips.Phillips
+
+MIN_MEMORY=-Xms256m
+MAX_MEMORY=-Xmx256m
+
+JSVC=/usr/bin/jsvc
+
+# You can enable a security policy if you need it here
+#SECURITY_POLICY="-Djava.security.manager -Djava.security.policy=$DIR/daemon.policy"
+SECURITY_POLICY=
+
+# Set to 1 to enable debugging
+DEBUG=1
+DEBUG_OUTPUT_FILE=$DIR/output.txt
+DEBUG_ERROR_FILE=$DIR/log.txt
+
+# DO NOT EDIT BELOW THIS LINE ======================================================
+
+usage() {
+        echo $"Usage: $0 {start|stop|restart}"
+        return 0
+}
+
+start() {
+    echo $"Starting the $NAME..."
+
+    cd $DIR
+
+    if [[ $DEBUG -eq 1 ]]; then
+        $JSVC -cwd $DIR -debug -pidfile $PID -home $JAVA_HOME $SECURITY_POLICY -outfile $DEBUG_OUTPUT_FILE -errfile $DEBUG_ERROR_FILE $MIN_MEMORY $MAX_MEMORY -cp $JAR_FILE $MAIN_CLASS
+    else
+        $JSVC -cwd $DIR -pidfile $PID -home $JAVA_HOME $SECURITY_POLICY $MIN_MEMORY $MAX_MEMORY -cp $JAR_FILE $MAIN_CLASS 
+    fi
+
+    # Check status of the application
+    if [[ $? -eq 0 ]]; then
+        echo $"$NAME Successfully STARTED"
+        echo
+        return 0
+    else
+        echo $"Failed to START $NAME"
+        echo
+        return 1
+    fi
+}
+
+stop() {
+    echo $"Stopping the $NAME..."
+
+    cd $DIR
+
+    if [[ $DEBUG -eq 1 ]]; then
+        $JSVC -cwd $DIR -debug -stop -home $JAVA_HOME -pidfile $PID $SECURITY_POLICY -outfile $DEBUG_OUTPUT_FILE -errfile $DEBUG_ERROR_FILE $MIN_MEMORY $MAX_MEMORY -cp $JAR_FILE $MAIN_CLASS
+    else
+        $JSVC -cwd $DIR -stop -home $JAVA_HOME -pidfile $PID $SECURITY_POLICY $MIN_MEMORY $MAX_MEMORY -cp $JAR_FILE $MAIN_CLASS
+    fi
+
+    if [[ -e $PID ]]; then
+        # Kill the process (so we are sure that it has stopped)
+        KPID=`cat $PID`
+        KPID1=$(($KPID - 1))
+        kill -9 $KPID $KPID1
+        rm -f $PID
+    fi
+
+    # Check status of the application
+    if [[ $? -eq 0 ]]; then
+        return 0
+    else
+        echo $"Failed to STOP $NAME"
+        echo
+        return 1
+    fi
+    echo
+}
+
+restart() {
+    cd $DIR
+
+    stop
+
+    sleep 10
+
+    if [[ -e $PID ]]; then
+        # Kill the process (so we are sure that it has stopped)
+        KPID=`cat $PID`
+        KPID1=$(($KPID - 1))
+        kill -9 $KPID $KPID1
+        rm -f $PID
+    fi
+
+    sleep 2
+
+    start
+
+    # Check status of the application
+    if [[ $? -eq 0 ]]; then
+        echo $"$NAME Successfully RESTARTED"
+        echo
+        return 0
+    else
+        echo $"Failed to RESTART $NAME"
+        echo
+        return 1
+    fi
+
+    echo
+}
+
+case "$1" in
+    start)
+        start
+    ;;
+    stop)
+        stop
+    ;;
+    restart)
+        restart
+    ;;
+
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 1
+
+esac
+
+exit $?

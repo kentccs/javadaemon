@@ -1,0 +1,23 @@
+Switching umask back to 022 from 077
+Using default JVM in /usr/lib/jvm/java-7-oracle/jre/lib/amd64/server/libjvm.so
+Attemtping to load library /usr/lib/jvm/java-7-oracle/jre/lib/amd64/server/libjvm.so
+JVM library /usr/lib/jvm/java-7-oracle/jre/lib/amd64/server/libjvm.so loaded
+JVM library entry point found (0x173791C0)
++-- DUMPING JAVA VM CREATION ARGUMENTS -----------------
+| Version:                       0x010004
+| Ignore Unrecognized Arguments: True
+| Extra options:                 3
+|   "-Xms256m" (0x00000000)
+|   "-Xmx256m" (0x00000000)
+|   "-Djava.class.path=/home/kent/NetBeansProjects/phillipsDaemon/phillipsDaemon.jar" (0x00000000)
++-------------------------------------------------------
+| Internal options:              4
+|   "-Dcommons.daemon.process.id=11713" (0x00000000)
+|   "-Dcommons.daemon.process.parent=11712" (0x00000000)
+|   "-Dcommons.daemon.version=1.0.15-dev" (0x00000000)
+|   "abort" (0x00405a70)
++-------------------------------------------------------
+Java VM created successfully
+Cannot find daemon loader org/apache/commons/daemon/support/DaemonLoader
+java_init failed
+Service exit with a return value of 1

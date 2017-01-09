@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+    <!-- Log configs (use full paths to the log files to specify location) -->
+    <entry key="InfoLogLevel">INFO</entry>
+    <entry key="ErrorLogLevel">ERROR</entry>
+    <entry key="InfoLogFile">/var/log/applications/phillips/info.log</entry>
+    <entry key="ErrorLogFile">/var/log/applications/phillips/error.log</entry>
+
+    <!-- Application configs -->
+    <entry key="NumberOfThreads">20</entry>
+    <entry key="ConnectionTimeout">30000</entry>
+    <entry key="ReplyTimeout">120000</entry>
+    <entry key="SleepTime">1000</entry>
+    <entry key="MaximumFailedQueryRetries">5</entry>  
+    <entry key="MaxRequestRetries">5</entry>
+    <entry key="BucketSize">100</entry>
+    <entry key="ApplicationName">Phillips</entry>
+
+    <!-- Database connection configs -->
+    <entry key="DbPoolName">phillipsConPool</entry>
+    <entry key="DbUserName">philips_db_user</entry>
+    <entry key="DbPassword">philips_db_us3r</entry>
+    <entry key="DbHost">10.250.250.43</entry>
+    <entry key="DbPort">3306</entry>
+    <entry key="DbName">phillipsConPool</entry>
+
+    <!-- Message statuses -->
+    <entry key="ProcessedStatus">2</entry>
+    <entry key="ProcessingStatus">1</entry>
+    <entry key="UnprocessedStatus">0</entry>
+    <entry key="FailedStatus">3</entry>
+    <entry key="EscalatedStatus">103</entry>
+
+    <!-- Status pusher payload formulator and posting script -->
+    <entry key="WrapperScript">http://197.159.100.249:9000/hub/services/wrappers/StatusPusher/index.php</entry>
+
+    <!-- Status codes to invoke the API -->
+    <entry key="PaymentAcceptedCode">140</entry>
+    <entry key="PaymentRejectedCode">141</entry>
+    <entry key="PaymentEscalatedCode">219</entry>
+    <entry key="UnknownStatusCode">103</entry>
+    <entry key="PendingReversalCode">179</entry>
+    <entry key="TransactionManuallyFailedCode">216</entry>
+    <entry key="TransactionManuallySuccessfulCode">217</entry>
+    <!-- Status codes returned used to translate -->
+    <entry key="PaymentAcceptedPushCode">183</entry>
+    <entry key="PaymentRejectedPushCode">180</entry>
+   
+    <!-- Statuses that are to be picked for pushing -->
+    <entry key="StatusToPush">103,140,141,219,179,216,217</entry>
+   
+    <!-- Same as the one on the Status Pusher Wrapper config -->
+    <entry key="SuccessfullyDelivered">188</entry>
+    <entry key="FailedToDeliver">189</entry>
+   
+    <!-- Time is in Seconds -->
+    <!-- Time used to refresh the information from the PushUrls.xml file-->
+    <entry key="RefreshUrlsInterval">60</entry>
+   
+    <!-- Time before the next try of a record -->
+    <entry key="NextSendInterval">60</entry>
+    <!--  Time before the push try period times out-->
+    <entry key="PushAckTimeoutPeriod">172800</entry>
+
+    <!-- Secret Key and Intialization vector used to decode encrypted passwords -->
+    <entry key="IntializationVector">8228b9a98ca15318</entry>
+    <entry key="EncryptionKey">3c6e0b8a9c15224a</entry>
+    
+    <!-- proxy config -->
+    <entry key="UsingProxy">no</entry>
+    <entry key="ProxyServer">proxy2</entry>
+    <entry key="ProxyTimeout">200000</entry>
+    <entry key="ProxyPort">8080</entry>
+    
+    <!-- API URL config -->
+    <entry key="PushUrl">http://www.authenticity.philips.com/fw/service.aspx</entry>
+    <!-- <entry key="hubAPIUrl">http://197.159.100.249:9000/hub/channels/api/responses/SingleSMSAPI.php</entry> -->
+    <entry key="hubAPIUrl">http://10.250.250.29:9000/hub/channels/api/responses/SingleSMSAPI.php</entry>
+    
+    <!-- Parameters for third party sending -->
+    <entry key="ThirdPUsername">winsafeinterface</entry>
+    <entry key="ThirdPPassword">winsafe2014</entry>
+    
+    
+    <!-- Parameters for sms sending -->
+    <entry key="smsUsername">philips_sms_api</entry>
+    <entry key="smsPassword">philips_c3llul@nt_pwd</entry>
+    <entry key="source">20222</entry>
+    <entry key="smsNetworkID">63902</entry>
+    <entry key="connectorrule">102</entry>
+    <entry key="accessPoint">2</entry>
+
+
+</properties>
